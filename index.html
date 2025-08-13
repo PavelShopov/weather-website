@@ -5,17 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Station</title>
     <link rel="stylesheet" href="style.css">
-    <script src="/scripts/API_comm.TS"></script>
+    <!-- <script src="/scripts/API_comm.TS"></script> -->
 </head>
 <body>  
     <div class="weather-container">
         <div class="header">
             <h1 class="title">Weather Station</h1>
             <p class="subtitle">Local Weather Information</p>
+            <h4 id="cityName"></h4>
+            <p id="temperature"></p>
+            <p id="visibility"></p>
+            <p id="windSpeed"></p>
         </div>
         
         <div class="weather-display" id="weatherDisplay">
-        
+
         </div>
     </div>
 
@@ -27,7 +31,7 @@
         coord: {
             lon: number;
             lat: number;
-        }[];
+        };
         weather: {
             id: number;
             main: string;
@@ -44,13 +48,13 @@
             humidity: number;
             sea_level: number;
             grnd_level: number;
-        }[];
+        };
         visibility: number;
         wind: {
             speed: number;
             deg: number;
             gust: number;
-        }[];
+        };
         clouds: {
             all: number;
         };
@@ -59,7 +63,7 @@
             country: string;
             sunrise: number;
             sunset: number;
-        }[];
+        };
         timezone: number;
         id: number;
         name: string;
@@ -79,8 +83,7 @@
 
         setText("cityName", data.name);
         setText("temperature", `${(data.main.temp - 273.15).toFixed(1)}°C`);
-        setText("description", data.description);
-        setText("humidity", `${data.humidity}%`);
+        setText("humidity", `${data.main.humidity}%`);
         setText("windSpeed", `${data.wind.speed} km/h`);
         setText("visibility", `${data.visibility} km`);
 
