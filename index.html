@@ -5,24 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Station</title>
     <link rel="stylesheet" href="style.css">
-    <!-- <script src="/scripts/API_comm.TS"></script> -->
 </head>
 <body>  
     <div class="weather-container">
         <div class="header">
             <h1 class="title">Weather Station</h1>
             <p class="subtitle">Local Weather Information</p>
+            
+        </div>
+        
+        <div class="weather-display" id="weatherDisplay">
             <h4 id="cityName"></h4>
             <p id="temperature"></p>
             <p id="visibility"></p>
             <p id="windSpeed"></p>
+            <p id="humidity"></p>
         </div>
         
-        <div class="weather-display" id="weatherDisplay">
-
-        </div>
     </div>
 
-    <script type="module" src="/scripts/API_comm"></script>
+    <script type="module" src="/scripts/API_comm.js"></script>
 </body>
 </html>
