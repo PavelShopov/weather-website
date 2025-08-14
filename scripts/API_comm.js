@@ -34,9 +34,85 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var API_key = 'e2c22b27d1547f05ad9017996b513c40';
-var city_ID = "Veles";
-var url = "https://api.openweathermap.org/data/2.5/weather?q=".concat(city_ID, "&appid=").concat(API_key);
+// export function search_cities() {
+//   const searchbar = document.getElementById(
+//     "searchbar"
+//   ) as HTMLInputElement | null;
+//   let list = document.querySelector("#list-holder");
+//   const cityList: CityList = require("city.list.json");
+//   if (!cityList || !searchbar || !list) {
+//     return;
+//   }
+//   let search: string = searchbar.value;
+//   console.log("we opened the folder " + search);
+//   for (let i: number = 0; i < cityList.length; i++) {
+//     let obj = cityList[i];
+//     if (obj.name.toLowerCase().includes(search)) {
+//       const elem = document.createElement("li");
+//       elem.innerHTML = `${obj.name}`;
+//       list.appendChild(elem);
+//     }
+//   }
+// }
+var setText = function (id, text) {
+    var el = document.getElementById(id);
+    if (el)
+        el.textContent = text;
+};
+function cityChecker(city) {
+    return __awaiter(this, void 0, void 0, function () {
+        var cityList, i, obj, _a;
+        return __generator(this, function (_b) {
+            switch (_b.label) {
+                case 0:
+                    _b.trys.push([0, 2, , 3]);
+                    return [4 /*yield*/, require("city.list.json")];
+                case 1:
+                    cityList = _b.sent();
+                    if (!cityList) {
+                        throw Error;
+                    }
+                    for (i = 0; i < cityList.length; i++) {
+                        obj = cityList[i];
+                        if (obj.name.toLowerCase() == city.toLowerCase()) {
+                            return [2 /*return*/, true];
+                        }
+                    }
+                    return [2 /*return*/, false];
+                case 2:
+                    _a = _b.sent();
+                    console.log("trouble finding city json");
+                    return [2 /*return*/, false];
+                case 3: return [2 /*return*/];
+            }
+        });
+    });
+}
+function loadWeather(city_ID) {
+    return __awaiter(this, void 0, void 0, function () {
+        var url, weather, weatherDisplay;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    // const city_ID = "Veles";
+                    console.log("everything leading to loadweather works, city is " + city_ID);
+                    url = "https://api.openweathermap.org/data/2.5/weather?q=".concat(city_ID, "&appid=e2c22b27d1547f05ad9017996b513c40");
+                    return [4 /*yield*/, WeatherDataApi(url)];
+                case 1:
+                    weather = _a.sent();
+                    weatherDisplay = document.getElementById("weatherDisplay");
+                    if (weatherDisplay)
+                        weatherDisplay.style.display = "block";
+                    setText("cityName", "".concat(weather.name, ", ").concat(weather.sys.country));
+                    setText("temperature", "".concat((weather.main.temp - 273.15).toFixed(1), "\u00B0C"));
+                    setText("humidity", "".concat(weather.main.humidity, "%"));
+                    setText("visibility", "".concat((weather.visibility / 1000).toFixed(1), " km"));
+                    setText("windSpeed", "".concat(weather.wind.speed.toFixed(1), " km/h"));
+                    return [2 /*return*/];
+            }
+        });
+    });
+}
 function WeatherDataApi(url) {
     return __awaiter(this, void 0, void 0, function () {
         var response, weather;
@@ -46,7 +122,7 @@ function WeatherDataApi(url) {
                 case 1:
                     response = _a.sent();
                     if (!response.ok) {
-                        throw new Error('something went wrong: ' + response.statusText);
+                        throw new Error("something went wrong: " + response.statusText);
                     }
                     return [4 /*yield*/, response.json()];
                 case 2:
@@ -56,31 +132,3 @@ function WeatherDataApi(url) {
         });
     });
 }
-var setText = function (id, text) {
-    var el = document.getElementById(id);
-    if (el)
-        el.textContent = text;
-};
-function loadWeather() {
-    return __awaiter(this, void 0, void 0, function () {
-        var weather, weatherDisplay;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, WeatherDataApi(url)];
-                case 1:
-                    weather = _a.sent();
-                    setText("cityName", "".concat(weather.name, ", ").concat(weather.sys.country));
-                    setText("temperature", "".concat((weather.main.temp - 273.15).toFixed(1), "\u00B0C"));
-                    setText("humidity", "".concat(weather.main.humidity, "%"));
-                    setText("windSpeed", "".concat((weather.wind.speed).toFixed(1), " km/h"));
-                    setText("visibility", "".concat((weather.visibility / 1000).toFixed(1), " km"));
-                    weatherDisplay = document.getElementById("weatherDisplay");
-                    if (weatherDisplay)
-                        weatherDisplay.style.display = "block";
-                    return [2 /*return*/];
-            }
-        });
-    });
-}
-loadWeather();
-;

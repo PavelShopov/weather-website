@@ -1,28 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Station</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>  
-    <div class="weather-container">
-        <div class="header">
-            <h1 class="title">Weather Station</h1>
-            <p class="subtitle">Local Weather Information</p>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-        </div>
-        
-        <div class="weather-display" id="weatherDisplay">
-            <p id="cityName"></p>
-            <p id="temperature"></p>
-            <p id="visibility"></p>
-            <p id="windSpeed"></p>
-            <p id="humidity"></p>
-        </div>
+    <script type="module" src="/scripts/API_comm.ts"></script>
+
+    <script type="module">
+      import { loadWeather, search_cities } from "scripts/API_comm.js";
+      // document
+      //   .getElementById("searchbar")
+      //   .addEventListener("keypress", function (event) {
+      //     if (event.key === "Enter") {
+      //       event.preventDefault();
+      //       console.log("works");
+      //       document.getElementById("myBtn").click();
+      //     }
+      //   });
+      
+      // function search_c() {
+      //   let searchVal = document.getElementById("searchbar").value;
+      //   if(!searchVal){
+      //     return
+      //   }
+      //   console.log("made it to search_c")
+      //   search_cities(searchVal)
+      // }
+
+      window.lookupWeather() {
+        let searchVal = document.getElementById("searchbar").value;
+        if (!cityChecker(searchVal)) {
+          return;
+        }
+        loadWeather(searchVal);
+      }
+    </script>
+  <body>
+    <div class="weather-container">
+      <div class="header">
+        <h1 class="title">Weather Station</h1>
+        <p class="subtitle">Local Weather Information</p>
+      </div>
+      <!-- onkeyup="search_c()" -->
+      <input id="searchbar" type="text" name="search" />
+      <button type="button" onclick="lookupWeather()" id="myBtn">Search</button>
+      <ul id="list-holder"></ul>
+
+      <div class="weather-display" id="weatherDisplay" style="display: none">
+        <p id="cityName"></p>
+        <p id="temperature"></p>
+        <p id="visibility"></p>
+        <p id="windSpeed"></p>
+        <p id="humidity"></p>
+      </div>
     </div>
 
-    <script type="module" src="/scripts/API_comm.js"></script>
-</body>
+  </body>
 </html>
