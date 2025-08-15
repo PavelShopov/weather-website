@@ -4,33 +4,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Station</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>  
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
     <div class="weather-container">
-        <div class="header">
-            <h1 class="title">Weather Station</h1>
-            <p class="subtitle">Local Weather Information</p>
-        </div>
-        <input type="search" id="searchbar" style=" width: 80%; ">
-        <button type="button" style="width: 10%;" onclick="loadWeather()">🔎</button>
-        <div class="weather-display" id="weatherDisplay" style="display: none;">
-            <h3 id="cityName"></h4>
-            <p > Temperature: <span id="temperature"></span></p>
-            <p > Visibility: <span id="visibility"></span></p>
-            <p > Wind: <span id="windSpeed"></span></p>
-            <p > Humidity: <span id="humidity"> </span></p>
-        </div>
+      <div class="header">
+        <h1 class="title">Weather Station</h1>
+        <p class="subtitle">Local Weather Information</p>
+      </div>
+
+      <input type="search" id="searchbar" style="width: 80%" />
+      <button type="button" style="width: 10%" onclick="loadWeather()">
+        🔎
+      </button>
+
+      <div class="weather-display" id="weatherDisplay" style="display: none">
+        <h3 id="cityName"></h3>
+        <p>Temperature: <span id="temperature"></span></p>
+        <p>Visibility: <span id="visibility"></span></p>
+        <p>Wind: <span id="windSpeed"></span></p>
+        <p>Humidity: <span id="humidity"> </span></p>
+      </div>
     </div>
     
-  <script type="module">
-  import { loadWeather } from "/scripts/API_comm.js";
-  window.loadWeather = loadWeather; // expose it to the browser's global scope if needed
-  function lookup(){
-    window.loadWeather()
-  }
-
-</script>
-
-</body>
+    <script type="module">
+      import { loadWeather } from "/scripts/API_comm.js";
+      window.loadWeather = loadWeather; // expose it to the browser's global scope if needed
+      function lookup() {
+        window.loadWeather();
+      }
+    </script>
+  </body>
 </html>
