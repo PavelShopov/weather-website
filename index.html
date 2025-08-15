@@ -12,23 +12,23 @@
             <h1 class="title">Weather Station</h1>
             <p class="subtitle">Local Weather Information</p>
         </div>
-        <input type="search" style=" width: 80%; " >
-        <button type="button" style="width: 10%;" onclick="">🔎</button>
-
-        <div class="weather-display" id="weatherDisplay">
-            <h4 id="cityName"></h4>
-            <p id="temperature"></p>
-            <p id="visibility"></p>
-            <p id="windSpeed"></p>
-            <p id="humidity"></p>
+        <input type="search" id="searchbar" style=" width: 80%; ">
+        <button type="button" style="width: 10%;" onclick="loadWeather()">🔎</button>
+        <div class="weather-display" id="weatherDisplay" style="display: none;">
+            <h3 id="cityName"></h4>
+            <p > Temperature: <span id="temperature"></span></p>
+            <p > Visibility: <span id="visibility"></span></p>
+            <p > Wind: <span id="windSpeed"></span></p>
+            <p > Humidity: <span id="humidity"> </span></p>
         </div>
     </div>
     
   <script type="module">
   import { loadWeather } from "/scripts/API_comm.js";
-
-  console.log("about to enter ts");
-  window.loadWeather("Veles");
+  window.loadWeather = loadWeather; // expose it to the browser's global scope if needed
+  function lookup(){
+    window.loadWeather()
+  }
 
 </script>
 

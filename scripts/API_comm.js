@@ -7,10 +7,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-export function loadWeather(city_ID) {
+// function checkCity(cityID: string): boolean {
+//   return true; //TODO
+// }
+function getCity() {
+    let el = document.getElementById("searchbar") || null;
+    const city = el.value;
+    console.log(city);
+    return city;
+}
+export function loadWeather() {
     return __awaiter(this, void 0, void 0, function* () {
-        console.log("everything leading to loadweather works, city is " + city_ID);
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city_ID}&appid=e2c22b27d1547f05ad9017996b513c40`;
+        console.log("enters func");
+        const cityID = getCity();
+        if (!cityID) {
+            return;
+        }
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityID}&appid=e2c22b27d1547f05ad9017996b513c40`;
         let weather = yield WeatherDataApi(url);
         const weatherDisplay = document.getElementById("weatherDisplay");
         if (weatherDisplay)

@@ -1,10 +1,21 @@
+// function checkCity(cityID: string): boolean {
+//   return true; //TODO
+// }
+function getCity(): string {
+  let el = (document.getElementById("searchbar") as HTMLInputElement) || null;
+  const city: string = el.value;  
+  console.log(city);
+  return city;
+}
 
-export async function loadWeather(city_ID: string): Promise<void> {
-  console.log("everything leading to loadweather works, city is " + city_ID);
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city_ID}&appid=e2c22b27d1547f05ad9017996b513c40`;
-  
+export async function loadWeather(): Promise<void> {
+  console.log("enters func");
+  const cityID: string = getCity();
+  if (!cityID ) {
+    return;
+  }
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityID}&appid=e2c22b27d1547f05ad9017996b513c40`;
   let weather: WeatherData = await WeatherDataApi(url);
-
   const weatherDisplay = document.getElementById("weatherDisplay");
   if (weatherDisplay) weatherDisplay.style.display = "block";
 
@@ -19,7 +30,6 @@ const setText = (id: string, text: string) => {
   const el = document.getElementById(id);
   if (el) el.textContent = text;
 };
-
 
 async function WeatherDataApi(url: string): Promise<WeatherData> {
   const response = await fetch(url);
@@ -72,14 +82,14 @@ interface WeatherData {
   name: string;
   cod: number;
 }
-interface City{
+interface City {
   id: number;
-  name:string;
-  state:string;
-  country:'string';
-  coord:{
-    lon: number
-    lat: number
-  }
+  name: string;
+  state: string;
+  country: "string";
+  coord: {
+    lon: number;
+    lat: number;
+  };
 }
 (window as any).loadWeather = loadWeather;
