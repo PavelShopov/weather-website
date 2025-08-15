@@ -26,13 +26,14 @@
         <p>Humidity: <span id="humidity"> </span></p>
       </div>
     </div>
-    
+
     <script type="module">
       import { loadWeather } from "/scripts/API_comm.js";
-      window.loadWeather = loadWeather; // expose it to the browser's global scope if needed
+    //   window.loadWeather = loadWeather; 
       function lookup() {
         window.loadWeather();
       }
     </script>
+
   </body>
 </html>
