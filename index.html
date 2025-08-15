@@ -11,8 +11,10 @@
         <div class="header">
             <h1 class="title">Weather Station</h1>
             <p class="subtitle">Local Weather Information</p>
-            
         </div>
+        <input type="search" style=" width: 80%; " >
+        <button type="button" style="width: 10%;" onclick="">🔎</button>
+
         <div class="weather-display" id="weatherDisplay">
             <h4 id="cityName"></h4>
             <p id="temperature"></p>
@@ -20,17 +22,12 @@
             <p id="windSpeed"></p>
             <p id="humidity"></p>
         </div>
-        
     </div>
-    <!-- <script>var exports = {};</script> -->
-
-    <!-- <script src="/scripts/API_comm.js"></script> -->
     
   <script type="module">
   import { loadWeather } from "/scripts/API_comm.js";
 
   console.log("about to enter ts");
-  window.loadWeather = loadWeather; // expose it to the browser's global scope if needed
   window.loadWeather("Veles");
 
 </script>
