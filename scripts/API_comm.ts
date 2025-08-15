@@ -41,7 +41,6 @@ interface WeatherData {
     description: string;
     icon: string;
   };
-  1;
   base: string;
   main: {
     temp: number;
@@ -83,3 +82,4 @@ interface City{
     lat: number
   }
 }
+(window as any).loadWeather = loadWeather;
