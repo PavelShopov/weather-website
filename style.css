@@ -4,7 +4,7 @@
             padding: 0;
             box-sizing: border-box;
         }
-
+        
         body {
             font-family: Georgia, 'Times New Roman', serif;
             background-color: #f5f5f0;
@@ -16,7 +16,12 @@
             justify-content: center;
             padding: 20px;
         }
-
+        #dropdown{
+            float: inline-start;
+        }
+        li{
+            list-style: none;
+        }
         .weather-container {
             background: white;
             border: 2px solid #ddd;
@@ -40,7 +45,6 @@
             margin-bottom: 8px;
             font-weight: normal;
         }
-
         .subtitle {
             color: #7f8c8d;
             font-size: 1rem;

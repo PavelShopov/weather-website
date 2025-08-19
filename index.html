@@ -13,12 +13,17 @@
         <p class="subtitle">Local Weather Information</p>
       </div>
 
-      <input type="search" id="searchbar" style="width: 80%" />
-      <button type="button" style="width: 10%" onclick="loadWeather()">
+      <input
+        type="search"
+        id="searchbar"
+        oninput="loadCities()"
+        style="width: 80%"
+      />
+      <button  type="button" style="width: 10%" onclick="loadWeather()">
         🔎
       </button>
-
-      <div class="weather-display" id="weatherDisplay" style="display: none">
+      <ul id="dropdown" style="display: none;"></ul>
+      <div class="weather-display" id="weatherDisplay" style="display: none;">
         <h3 id="cityName"></h3>
         <p>Temperature: <span id="temperature"></span></p>
         <p>Visibility: <span id="visibility"></span></p>
@@ -29,7 +34,7 @@
 
     <script type="module">
       import { loadWeather } from "/scripts/API_comm.js";
-    //   window.loadWeather = loadWeather; 
+      window.loadWeather = loadWeather; // expose it to the browser's global scope if needed
       function lookup() {
         window.loadWeather();
       }
