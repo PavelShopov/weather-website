@@ -27,22 +27,22 @@ export async function loadCities(): Promise<void> {
   if (!response.ok) {
     throw new Error("something went wrong: ");
   }
-
-  let hashmap: Map<string,string> = new Map();
+  
   const citySuggest: string = capitalizeFirstLetter(el.value);
   const citylist: City[] = await response.json();
-  // const checker 
+
+  const checker= false;
   citylist.forEach((city) => {
     if (city.name.startsWith(citySuggest)) {
-      // if(checker!){
-        // citySuggestionDropdown.style.display = "block";
-      // }
-      let li = document.createElement("li"); 
+      if(!checker){
+      citySuggestionDropdown.style.display = "block";
+      }
+
+      let li = document.createElement("li");
       li.appendChild(document.createTextNode(city.name));
       citySuggestionDropdown.appendChild(li);
     }
   });
-  
 }
 
 function capitalizeFirstLetter(citySuggest: string) {
@@ -66,7 +66,7 @@ export async function loadWeather(): Promise<void> {
   let weather: WeatherData = await WeatherDataApi(url);
   const weatherDisplay = document.getElementById("weatherDisplay");
   if (weatherDisplay) {
-    setTexttoEmpty()
+    setTexttoEmpty();
     weatherDisplay.style.display = "block";
   }
   setText("cityName", `${weather.name}, ${weather.sys.country}`);
@@ -82,11 +82,11 @@ const setText = (id: string, text: string) => {
 };
 
 const setTexttoEmpty = () => {
-  setText("cityName", '');
-  setText("temperature", '');
-  setText("humidity", '');
-  setText("visibility", '');
-  setText("windSpeed", '');
+  setText("cityName", "");
+  setText("temperature", "");
+  setText("humidity", "");
+  setText("visibility", "");
+  setText("windSpeed", "");
 };
 
 async function WeatherDataApi(url: string): Promise<WeatherData> {
