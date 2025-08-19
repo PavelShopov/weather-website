@@ -28,17 +28,20 @@ async function loadCities() {
     if (!response.ok) {
         throw new Error("something went wrong: ");
     }
-    let hashmap = new Map();
     const citySuggest = capitalizeFirstLetter(el.value);
     const citylist = await response.json();
-    // const checker 
+    let flag = false;
     citylist.forEach((city) => {
         if (city.name.startsWith(citySuggest)) {
-            // if(checker!){
-            // citySuggestionDropdown.style.display = "block";
-            // }
+            if (!flag) {
+                citySuggestionDropdown.style.display = "block";
+                flag = true;
+            }
             let li = document.createElement("li");
-            li.appendChild(document.createTextNode(city.name));
+            li.appendChild(document.createTextNode(city.name + ", " + city.country));
+            li.addEventListener("click", () => {
+                loadWeather();
+            });
             citySuggestionDropdown.appendChild(li);
         }
     });
@@ -75,11 +78,11 @@ const setText = (id, text) => {
         el.textContent = text;
 };
 const setTexttoEmpty = () => {
-    setText("cityName", '');
-    setText("temperature", '');
-    setText("humidity", '');
-    setText("visibility", '');
-    setText("windSpeed", '');
+    setText("cityName", "");
+    setText("temperature", "");
+    setText("humidity", "");
+    setText("visibility", "");
+    setText("windSpeed", "");
 };
 async function WeatherDataApi(url) {
     const response = await fetch(url);

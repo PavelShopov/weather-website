@@ -13,7 +13,7 @@ export async function loadCities(): Promise<void> {
   let citySuggestionDropdown =
     (document.getElementById("dropdown") as HTMLUListElement) || null;
   let response = await fetch("/scripts/city.list.json");
-
+  
   if (!citySuggestionDropdown) {
     throw new Error("something went wrong: ");
   }
@@ -27,19 +27,25 @@ export async function loadCities(): Promise<void> {
   if (!response.ok) {
     throw new Error("something went wrong: ");
   }
-  
+
   const citySuggest: string = capitalizeFirstLetter(el.value);
   const citylist: City[] = await response.json();
 
-  const checker= false;
+  let flag: boolean = false;
   citylist.forEach((city) => {
     if (city.name.startsWith(citySuggest)) {
-      if(!checker){
-      citySuggestionDropdown.style.display = "block";
+      if (!flag) {
+        citySuggestionDropdown.style.display = "block";
+        flag = true;
       }
-
       let li = document.createElement("li");
-      li.appendChild(document.createTextNode(city.name));
+      li.appendChild(document.createTextNode(city.name + ", " + city.country));
+      li.addEventListener("click", () => {
+        let el =
+          (document.getElementById("searchbar") as HTMLInputElement) || null;
+        el.textContent = city.name;
+        loadWeather();
+      });
       citySuggestionDropdown.appendChild(li);
     }
   });
@@ -62,6 +68,7 @@ export async function loadWeather(): Promise<void> {
     throw new Error("something went wrong: ");
   }
   citySuggestionDropdown.innerHTML = "";
+
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${cityID}&appid=e2c22b27d1547f05ad9017996b513c40`;
   let weather: WeatherData = await WeatherDataApi(url);
   const weatherDisplay = document.getElementById("weatherDisplay");
