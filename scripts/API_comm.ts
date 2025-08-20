@@ -29,6 +29,7 @@ export async function loadCities(): Promise<void> {
   const citylist: City[] = await response.json();
   let flag: boolean = false;
   let currState = new Set<string>();
+
   //===============================================
 
   // citylist.forEach((city) => {
@@ -43,11 +44,7 @@ export async function loadCities(): Promise<void> {
   for (const city of citylist) {
     const cityInName: string = city.name + ", " + city.country;
     if (city.name.startsWith(citySuggest) && !currState.has(cityInName)) {
-      // if (!flag) {
-      //   flag = true;
-      // }
       currState.add(cityInName);
-      console.log(cityInName);
       const li: HTMLElement = createListEl(city);
       citySuggestionDropdown.appendChild(li);
     }
