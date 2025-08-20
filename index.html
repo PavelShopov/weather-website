@@ -13,16 +13,12 @@
         <p class="subtitle">Local Weather Information</p>
       </div>
 
-      <input
-        type="search"
-        id="searchbar"
-        oninput="loadCities()" 
-        style="width: 80%"
-      />
+      <input type="search" id="searchbar" style="width: 80%" />
+      <!-- oninput="loadCities()"  -->
       <button type="button" style="width: 10%" onclick="loadWeather()">
         🔎
       </button>
-      <ul id="dropdown" ></ul>
+      <ul id="dropdown"></ul>
       <div class="weather-display" id="weatherDisplay" style="display: none">
         <h3 id="cityName"></h3>
         <p>Temperature: <span id="temperature"></span></p>
@@ -36,6 +32,19 @@
       import { loadWeather, loadCities } from "/scripts/API_comm.js";
       window.loadWeather = loadWeather;
       window.loadCities = loadCities;
+
+      function debounce(func, timeout = 100) {
+        let timer;
+        return (...args) => {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            func.apply(this, args);
+          }, timeout);
+        };
+      }
+      const searchbar = document.getElementById("searchbar");
+      searchbar?.addEventListener("input", debounce(() => loadCities(), 100));
+
       document.addEventListener("keypress", function (event) {
         if (event.keyCode == 13) {
           loadWeather();

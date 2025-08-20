@@ -1,7 +1,6 @@
 function getCity(): string {
   let el = (document.getElementById("searchbar") as HTMLInputElement) || null;
   const city: string = el.value;
-  console.log(city);
   return city;
 }
 
@@ -24,31 +23,20 @@ export async function loadCities(): Promise<void> {
     throw new Error("something went wrong: ");
   }
 
+  var currState = new Set<string>();
   citySuggestionDropdown.innerHTML = "";
   const citySuggest: string = capitalizeFirstLetter(el.value);
   const citylist: City[] = await response.json();
-  let flag: boolean = false;
-  let currState = new Set<string>();
-
-  //===============================================
-
-  // citylist.forEach((city) => {
-  //   if (
-  //     city.name.startsWith(citySuggest) &&
-  //     !currAutocomplete.has(city.name + ", " + city.country)
-  //   ) {
-  //
-  //       }
-  //     });
-
   for (const city of citylist) {
     const cityInName: string = city.name + ", " + city.country;
     if (city.name.startsWith(citySuggest) && !currState.has(cityInName)) {
       currState.add(cityInName);
+      console.log(cityInName);
       const li: HTMLElement = createListEl(city);
       citySuggestionDropdown.appendChild(li);
     }
   }
+  currState.clear();
 }
 
 function createListEl(city: City): HTMLElement {

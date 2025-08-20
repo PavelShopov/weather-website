@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 function getCity() {
     let el = document.getElementById("searchbar") || null;
     const city = el.value;
-    console.log(city);
     return city;
 }
 export function loadCities() {
@@ -30,28 +29,20 @@ export function loadCities() {
         if (!response.ok) {
             throw new Error("something went wrong: ");
         }
+        var currState = new Set();
         citySuggestionDropdown.innerHTML = "";
         const citySuggest = capitalizeFirstLetter(el.value);
         const citylist = yield response.json();
-        let flag = false;
-        let currState = new Set();
-        //===============================================
-        // citylist.forEach((city) => {
-        //   if (
-        //     city.name.startsWith(citySuggest) &&
-        //     !currAutocomplete.has(city.name + ", " + city.country)
-        //   ) {
-        //
-        //       }
-        //     });
         for (const city of citylist) {
             const cityInName = city.name + ", " + city.country;
             if (city.name.startsWith(citySuggest) && !currState.has(cityInName)) {
                 currState.add(cityInName);
+                console.log(cityInName);
                 const li = createListEl(city);
                 citySuggestionDropdown.appendChild(li);
             }
         }
+        currState.clear();
     });
 }
 function createListEl(city) {
