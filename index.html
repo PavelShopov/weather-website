@@ -16,14 +16,14 @@
       <input
         type="search"
         id="searchbar"
-        oninput="loadCities()"
+        oninput="loadCities()" 
         style="width: 80%"
       />
-      <button  type="button" style="width: 10%" onclick="loadWeather()">
+      <button type="button" style="width: 10%" onclick="loadWeather()">
         🔎
       </button>
-      <ul id="dropdown" style="display: none;"></ul>
-      <div class="weather-display" id="weatherDisplay" style="display: none;">
+      <ul id="dropdown" ></ul>
+      <div class="weather-display" id="weatherDisplay" style="display: none">
         <h3 id="cityName"></h3>
         <p>Temperature: <span id="temperature"></span></p>
         <p>Visibility: <span id="visibility"></span></p>
@@ -33,13 +33,14 @@
     </div>
 
     <script type="module">
-      import { loadWeather } from "/scripts/API_comm.js";
-      window.loadWeather = loadWeather; // expose it to the browser's global scope if needed
-      function lookup() {
-        window.loadWeather();
-      }
-
+      import { loadWeather, loadCities } from "/scripts/API_comm.js";
+      window.loadWeather = loadWeather;
+      window.loadCities = loadCities;
+      document.addEventListener("keypress", function (event) {
+        if (event.keyCode == 13) {
+          loadWeather();
+        }
+      });
     </script>
-
   </body>
 </html>

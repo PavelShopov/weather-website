@@ -1,6 +1,3 @@
-// function checkCity(cityID: string): boolean {
-//   return true; //TODO
-// }
 function getCity(): string {
   let el = (document.getElementById("searchbar") as HTMLInputElement) || null;
   const city: string = el.value;
@@ -13,11 +10,10 @@ export async function loadCities(): Promise<void> {
   let citySuggestionDropdown =
     (document.getElementById("dropdown") as HTMLUListElement) || null;
   let response = await fetch("/scripts/city.list.json");
-  
+
   if (!citySuggestionDropdown) {
     throw new Error("something went wrong: ");
   }
-  citySuggestionDropdown.innerHTML = "";
   if (!el) {
     throw new Error("something went wrong: ");
   }
@@ -28,27 +24,45 @@ export async function loadCities(): Promise<void> {
     throw new Error("something went wrong: ");
   }
 
+  citySuggestionDropdown.innerHTML = "";
   const citySuggest: string = capitalizeFirstLetter(el.value);
   const citylist: City[] = await response.json();
-
   let flag: boolean = false;
-  citylist.forEach((city) => {
-    if (city.name.startsWith(citySuggest)) {
-      if (!flag) {
-        citySuggestionDropdown.style.display = "block";
-        flag = true;
-      }
-      let li = document.createElement("li");
-      li.appendChild(document.createTextNode(city.name + ", " + city.country));
-      li.addEventListener("click", () => {
-        let el =
-          (document.getElementById("searchbar") as HTMLInputElement) || null;
-        el.textContent = city.name;
-        loadWeather();
-      });
+  let currState = new Set<string>();
+  //===============================================
+
+  // citylist.forEach((city) => {
+  //   if (
+  //     city.name.startsWith(citySuggest) &&
+  //     !currAutocomplete.has(city.name + ", " + city.country)
+  //   ) {
+  //
+  //       }
+  //     });
+
+  for (const city of citylist) {
+    const cityInName: string = city.name + ", " + city.country;
+    if (city.name.startsWith(citySuggest) && !currState.has(cityInName)) {
+      // if (!flag) {
+      //   flag = true;
+      // }
+      currState.add(cityInName);
+      console.log(cityInName);
+      const li: HTMLElement = createListEl(city);
       citySuggestionDropdown.appendChild(li);
     }
+  }
+}
+
+function createListEl(city: City): HTMLElement {
+  let li = document.createElement("li");
+  li.appendChild(document.createTextNode(city.name + ", " + city.country));
+  li.addEventListener("click", () => {
+    let el = (document.getElementById("searchbar") as HTMLInputElement) || null;
+    el.textContent = city.name;
+    loadWeather();
   });
+  return li;
 }
 
 function capitalizeFirstLetter(citySuggest: string) {
@@ -76,7 +90,7 @@ export async function loadWeather(): Promise<void> {
     setTexttoEmpty();
     weatherDisplay.style.display = "block";
   }
-  setText("cityName", `${weather.name}, ${weather.sys.country}`);
+  ~setText("cityName", `${weather.name}, ${weather.sys.country}`);
   setText("temperature", `${(weather.main.temp - 273.15).toFixed(1)}°C`);
   setText("humidity", `${weather.main.humidity}%`);
   setText("visibility", `${(weather.visibility / 1000).toFixed(1)} km`);

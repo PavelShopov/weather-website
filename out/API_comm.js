@@ -2,9 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.loadCities = loadCities;
 exports.loadWeather = loadWeather;
-// function checkCity(cityID: string): boolean {
-//   return true; //TODO
-// }
 function getCity() {
     let el = document.getElementById("searchbar") || null;
     const city = el.value;
@@ -18,7 +15,6 @@ async function loadCities() {
     if (!citySuggestionDropdown) {
         throw new Error("something went wrong: ");
     }
-    citySuggestionDropdown.innerHTML = "";
     if (!el) {
         throw new Error("something went wrong: ");
     }
@@ -28,23 +24,42 @@ async function loadCities() {
     if (!response.ok) {
         throw new Error("something went wrong: ");
     }
+    citySuggestionDropdown.innerHTML = "";
     const citySuggest = capitalizeFirstLetter(el.value);
     const citylist = await response.json();
     let flag = false;
-    citylist.forEach((city) => {
-        if (city.name.startsWith(citySuggest)) {
-            if (!flag) {
-                citySuggestionDropdown.style.display = "block";
-                flag = true;
-            }
-            let li = document.createElement("li");
-            li.appendChild(document.createTextNode(city.name + ", " + city.country));
-            li.addEventListener("click", () => {
-                loadWeather();
-            });
+    let currState = new Set();
+    //===============================================
+    // citylist.forEach((city) => {
+    //   if (
+    //     city.name.startsWith(citySuggest) &&
+    //     !currAutocomplete.has(city.name + ", " + city.country)
+    //   ) {
+    //
+    //       }
+    //     });
+    for (const city of citylist) {
+        const cityInName = city.name + ", " + city.country;
+        if (city.name.startsWith(citySuggest) && !currState.has(cityInName)) {
+            // if (!flag) {
+            //   flag = true;
+            // }
+            currState.add(cityInName);
+            console.log(cityInName);
+            const li = createListEl(city);
             citySuggestionDropdown.appendChild(li);
         }
+    }
+}
+function createListEl(city) {
+    let li = document.createElement("li");
+    li.appendChild(document.createTextNode(city.name + ", " + city.country));
+    li.addEventListener("click", () => {
+        let el = document.getElementById("searchbar") || null;
+        el.textContent = city.name;
+        loadWeather();
     });
+    return li;
 }
 function capitalizeFirstLetter(citySuggest) {
     return (citySuggest.charAt(0).toUpperCase() + citySuggest.slice(1).toLowerCase());
@@ -66,7 +81,7 @@ async function loadWeather() {
         setTexttoEmpty();
         weatherDisplay.style.display = "block";
     }
-    setText("cityName", `${weather.name}, ${weather.sys.country}`);
+    ~setText("cityName", `${weather.name}, ${weather.sys.country}`);
     setText("temperature", `${(weather.main.temp - 273.15).toFixed(1)}°C`);
     setText("humidity", `${weather.main.humidity}%`);
     setText("visibility", `${(weather.visibility / 1000).toFixed(1)} km`);
