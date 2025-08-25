@@ -16,7 +16,7 @@ export function loadCities() {
     return __awaiter(this, void 0, void 0, function* () {
         let el = document.getElementById("searchbar") || null;
         let citySuggestionDropdown = document.getElementById("dropdown") || null;
-        let response = yield fetch("/scripts/city.list.json");
+        let response = yield fetch("./scripts/city.list.json");
         if (!citySuggestionDropdown) {
             throw new Error("something went wrong: ");
         }

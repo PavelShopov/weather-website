@@ -8,7 +8,7 @@ export async function loadCities(): Promise<void> {
   let el = (document.getElementById("searchbar") as HTMLInputElement) || null;
   let citySuggestionDropdown =
     (document.getElementById("dropdown") as HTMLUListElement) || null;
-  let response = await fetch("/scripts/city.list.json");
+  let response = await fetch("./scripts/city.list.json");
 
   if (!citySuggestionDropdown) {
     throw new Error("something went wrong: ");
